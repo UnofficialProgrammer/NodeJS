@@ -1,0 +1,242 @@
+SPREAD OPERATOR
+
+The spread operator is commonly used to make shallow copies of JS objects and arrays. The syntax is three dots(...) followed by the array (or iterable*).
+
+Can be used for
+
+Copying an array / object
+
+Concatenating arrays
+
+Adding elements to array
+
+Clonning array
+
+
+
+Mutable vs Immutable
+
+In JavaScript, only objects and arrays are mutable. A mutable object is an object whose state can be modified after it is created. Immutables are the objects whose state cannot be changed once the object is created. Strings and Numbers are Immutable.
+
+
+Rest Parameter
+
+The rest parameter syntax allows a function to accept an indefinite number of arguments as an array.
+Rest parameter: collects all remaining elements into an array.
+
+function add(...args) {
+  let result = 0;
+
+  for (let arg of args) result += arg;
+
+  return result
+}
+
+add(1) // returns 1
+add(1,2) // returns 3
+add(1, 2, 3, 4, 5) // returns 15
+
+
+==========================================================================
+
+foreach method in ES6
+
+First lets try for loop
+
+for(let i=0;i < arrayElements.length; i++){
+console.log(arrayElements[i];
+}
+
+
+Now we can check the foreach functionality
+
+arrayElements.forEach(function (value, index, array) {
+	console.log(value.name);
+})
+
+nb: receives 3 parameters by default
+
+Now we can change this to arrow function:
+
+arrayElements.forEach((value, index, array) => {
+	console.log(value.name);
+});
+
+Since it has just one line, we can remove the braces also:
+
+arrayElements.forEach((value, index, array) => console.log(value.name));
+
+===================================================================================
+
+MAP method 
+
+
+The map() method creates a new array with the results of calling a function for every array element.
+
+
+Suppose we have an array with names, age, location etc and the name of array be globalPlayers.
+We can use MAP method to list out the names as a seperate array.
+
+
+const newArray = globalPlayers.map(function(value){
+	console.log(value.name)
+});
+
+
+Converting to arrow function
+
+const newArray = globalPlayers.map((value) => value.name);
+
+
+
+
+FILTER Method
+
+
+The filter() method creates an array filled with all array elements that pass a test (provided as a function).
+
+Note: filter() does not change the original array.
+
+
+const newArray = globalPlayers.filter((value) => value.age===20);  //filers the age 20
+
+const newArray = globalPlayers.filter((value) => value.age===20 && value.id===1); //filers the age 20 and id = 1
+
+
+
+REDUCE Method
+
+Mainly  used for calculations.
+
+The reduce() method reduces the array to a single value.
+
+Unlike foreach, filter and map methods, the REDUCE method will take 4 parameters : total, value, index, array
+
+numberArray = [15, 20, 25, 30, 35, 40];
+
+numberArray.reduce((total,value) => total + value, 0); (here 0 in the end means the value assigned to total)
+
+
+
+FIND Method
+
+The find() method returns the value of the first element in an array that pass a test (provided as a function).
+
+If it finds an array element where the function returns a true value, find() returns the value of that array element (and does not check the remaining values)
+
+const newObj = globalPlayer.find((value) => value.age === 25);
+
+
+
+SORT
+
+JAVASCRIPT SORT DOES NOT WORK WELL WITH NUMBERS; IT WILL CHECK THE ONE SIDE AND SORTING WILL NOT BE PERFECT.
+
+SO WE NEED TO PASS PARAMETERS.
+
+const sortedNumbers = numberArray.sort(a,b) => a-b); // for ascending
+
+
+const sortedNumbers = numberArray.sort(a,b) => b-a); // for desending
+
+
+===========================================================================
+
+JSON : Java Script Object Notation
+
+JSON is a lightweight format for storing and transporting data. 
+JSON is often used when data is sent from a server to a web page
+
+
+JSON.parse()
+
+A common use of JSON is to exchange data to/from a web server.
+When receiving data from a web server, the data is always a string.
+Parse the data with JSON.parse(), and the data becomes a JavaScript object.
+
+JSON.stringify()
+
+A common use of JSON is to exchange data to/from a web server.
+When sending data to a web server, the data has to be a string.
+Convert a JavaScript object into a string with JSON.stringify().
+
+
+==================================================================================
+
+
+Local Storage
+
+The localStorage and sessionStorage properties allow to save key/value pairs in a web browser.
+
+The localStorage object stores data with no expiration date. 
+
+The data will not be deleted when the browser is closed, and will be available the next day, week, or year.
+
+The localStorage property is read-only.
+
+Local Storage recieves value only as strings. So if we need to store an object, we need to convert it into a string
+using the JSON.stringify() functionality. On retrieving we can covert it back to object using JSON.parse().
+
+	LocalStorage.setItem("key","value")   -  Syntax for SAVING data to localStorage
+
+	LocalStorage.getItem("key")	- Syntax for READING data from localStorage
+
+	LocalStorage.removeItem("key")	- Syntax for REMOVING data from localStorage
+
+	LocalStorage.clear()	- Syntax for clearing localStorage
+
+	LocalStorage.key(0) - Syntax for getting the key name based on given index
+
+
+
+Nullish coalescing operator (??)
+
+The nullish coalescing operator (??) is a logical operator that returns its right-hand side operand when its left-hand side operand is null or not-defined, and otherwise returns its left.
+
+This can be contrasted with the logical OR (||) operator, which returns the right-hand side operand if the left operand is any falsy value, null value, undefined or not-defined.
+
+
+const obj = {
+    id:0,
+    name:"sandeep",
+};
+
+const value = obj.id || 999;
+console.log(value);   gives 999
+
+const value = obj.id ?? 999;
+console.log(value);   gives 0
+
+
+==========================================================
+
+Self-invoking functions in JavaScript 
+
+syntax:
+
+(function () {
+  // body of the function
+}());
+
+The anonymous function above will be invoked right after it has been defined. 
+
+
+
+==================================================================
+
+Convert a type String to Int
+
+const k = "10";    //typeof k -> string
+
+We can either use parseInt(k); typeof k ->   -> gives number
+
+OR typeof +k  ->   -> gives number
+
+OR typeof k | 0 ->   -> gives number
+
+example
+
+const num = "10"; //typeof num -> string
+
+console.log(typeof +num);  -> gives number
+console.log(typeof num | 0);   -> gives number

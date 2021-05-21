@@ -1,0 +1,29 @@
+<section>
+    <div class="container mt-5">
+        <h1>My Cart</h1>
+        <table class="table mt-5">
+            <thead>
+                <th scope="col">Item</th>
+                <th scope="col">Title</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Action</th>
+            </thead>
+            <tbody>
+                {{#each productsInCart}}
+                <tr>
+                    {{#each this.products}}
+                    <td><img src="./product-images/{{this._id}}.jpg" width="100px;"></td>
+                    <td>{{this.Name}}</td>
+                    {{/each}}
+                    <td>
+                        <button class="cart-item-count mr-3" onClick="updateCart('-1','{{@ index}}','{{this.item}}')"> &nbsp;-&nbsp; </button>
+                         <span id="rowIndex{{@ index}}">{{this.quantity}}</span> 
+                        <button class="cart-item-count ml-3" onClick="updateCart('1','{{@ index}}','{{this.item}}')">+</button></button></td>
+                    <td><a href="/remove_cart_item/{{this.item}}" class="btn btn-danger" onclick="return confirm('Do you want to delete it?')">Remove</a></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+    </div>
+</section>

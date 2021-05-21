@@ -1,0 +1,141 @@
+
+Cloud Server: MONGODB ATLAS
+
+https://www.mongodb.com/try
+sandy359@gmail.com
+qazwsx!@#
+
+sandeep-sandy
+GAVel7HRlKNqu11G
+
+
+
+download mongodb from download center.
+
+install it.
+
+after installing move to terminal:
+	cmd:>"C:\Program Files\MongoDB\Server\4.4\bin\mongo.exe"
+To begin using MongoDB, connect a mongo.exe shell to the running MongoDB instance
+
+MongoDB Basics
+
+MongoDB is an open-source document database and leading NoSQL database. MongoDB is written in C++.
+
+1. MongoDB - Create Database
+
+use DATABASE_NAME
+
+use DATABASE_NAME is used to create database. The command will create a new database if it doesn't exist, otherwise it will return the existing database.
+
+2. MongoDB - Drop Database
+
+db.dropDatabase() command is used to drop a existing database.
+
+3. MongoDB - Create Collection
+
+db.createCollection(name, options)
+
+options: Specify options about memory size and indexing
+
+a) capped: Boolean(Optional) If true, enables a capped collection. Capped collection is a fixed size collection that automatically overwrites its oldest entries when it reaches its maximum size. If you specify true, you need to specify size parameter also.
+
+b) autoIndexId:	Boolean	(Optional) If true, automatically create index on _id field.s Default value is false.
+
+c) size	number	(Optional) Specifies a maximum size in bytes for a capped collection. If capped is true, then you need to specify this field also.
+
+d) max	number	(Optional) Specifies the maximum number of documents allowed in the capped collection.
+
+
+4. MongoDB - Drop Collection
+
+db.COLLECTION_NAME.drop()
+
+5. MongoDB - Insert Document
+
+db.COLLECTION_NAME.insert(document)
+
+If the collection doesn't exist in the database, then MongoDB will create this collection and then insert a document into it.
+
+
+
+NODEJS & MONGODB
+
+we need mongodb driver for interaction between nodejs and mongodb.
+
+cmd:>npm install mongodb
+
+Let’s get around to setting up a connection with the Mongo DB database.
+
+// Retrieve
+var MongoClient = require('mongodb').MongoClient;
+
+
+// Connect to the db
+MongoClient.connect("mongodb://localhost:27017/exampleDB", function(err, client) {
+  if(!err) {
+    console.log("We are connected");
+  }
+});
+
+
+//insert query
+
+client.db('DB_NAME').collection('COLLECTION_NAME').insertOne(DOCUMENTS);
+ie,
+client.db('sandeep').collection('user').insertOne(req.body);
+
+
+MONGODUMP & MONGORESTORE
+============================
+
+Starting with MongoDB 4.4, mongodump is now released separately from the MongoDB Server and uses its own versioning.
+
+The mongodump tool is part of the MongoDB Database Tools package:
+
+Run mongodump from the system command line, not the mongo shell.
+
+Installation
+-------------
+
+1.Download the Database Tools MSI installer.
+
+Open https://www.mongodb.com/try/download/database-tools?tck=docs_databasetools
+
+Using the drop-down menu on the right-hand side of the page:
+
+Select the Windows x86_64 Platform
+Select the msi Package
+Click the Download button
+
+
+2.Run the MSI installer.
+Double-click the downloaded MSI installer to install the Database Tools. During the install you may customize the installation directory if desired.
+
+
+3.Make the DB Tools available in your PATH.
+You may wish to make the Database Tools available in your system's PATH environment variable, which allows referencing each tool directly on the command prompt by name, without needing to specify its full path, or first navigating to its parent directory.
+
+Once you've installed the Database Tools, follow the instructions below to add the install directory to your system's PATH environment variable.:
+
+Open the Control Panel.
+
+In the System and Security category, click System.
+
+Click Advanced system settings. The System Properties modal displays.
+
+Click Environment Variables.
+
+In the System variables section, select Path and click Edit. The Edit environment variable modal displays.
+
+Click New and add the filepath to the location where you installed the Database Tools - C:\Program Files\MongoDB\Tools\100\bin
+
+Click OK to confirm your changes. On each other modal, click OK to confirm your changes.
+
+Once set, you can run any of the Database Tools directly from your command prompt. Consult the reference page for the specific tool you wish to use for its full syntax and usage.
+
+
+sandeep-sandy
+GAVel7HRlKNqu11G
+
+

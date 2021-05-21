@@ -1,0 +1,26 @@
+Express Generator will produce a basic structure for the project. It will create a folder structure for the project with some dependencies.
+
+1. create a folder for the project; let it be node-express-generator.
+
+2. cmd:>node-express-generator>npx express-generator --hbs
+	this will quickly create an application skeleton.
+	hbs is the template engine. [hbs means handlebars  https://handlebarsjs.com/]
+
+3. now install the npm for node modules: cmd:>node-express-generator>npm install
+
+4. we can check whether the server is set. the call will go to ./bin/www directory; which is defined in package.json file "start": "node ./bin/www
+
+start the server by cmd:>npm start.  then take localhost:3000 in browser to view the default loading page.
+
+
+5.now we can check the main file for the application: app.js
+
+here all the required libraries are loaded. 
+somesort of routing is also initialised here, 
+	app.use('/', indexRouter);
+	app.use('/users', usersRouter); 
+
+
+the code app.use('/', indexRouter); ie: localhost:3000/ will call the indexRouter which is defined above
+	var indexRouter = require('./routes/index'); that is routes/index.js
+

@@ -7,7 +7,7 @@ module.exports.connect = function(callback){
     const url = 'mongodb://localhost:27017'
     const dbname = 'shopping-cart'
 
-    mongoClient.connect(url,(err,client)=>{
+    mongoClient.connect(url,{useUnifiedTopology: true},(err,client)=>{
         if(err) return callback(err)
         state.db = client.db(dbname)
         callback() //calling fuction callback without passing any error params since no errors

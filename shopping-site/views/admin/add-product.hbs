@@ -1,23 +1,21 @@
-<section class="container-fluid">
-    <p>
-        <a href="/admin/view-products" class="btn btn-primary">Back To Products</a>
-    </p>
-<form action="/admin/add-product" method="POST" enctype="multipart/form-data">
-    <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Product Name</label>
-        <input type="textbox" class="form-control" name="name" >
-    </div>
-    <div class="mb-3">
-        <label for="exampleFormControlTextarea1" class="form-label">SKU number</label>
-        <input type="textbox" class="form-control" name="sku">
-    </div>
-    <div class="mb-3">
-        <label for="exampleFormControlTextarea1" class="form-label">Image</label>
-        <input type="file" class="form-control" name="image">
-    </div>
+<section>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Add Product</h2>
+                <form action="/admin/add-product" method="post" enctype="multipart/form-data">
+                    <label for="">Name</label>
+                    <input type="text" name="Name" class="form-control">
 
-     <p>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </p>
-</form>
+                    <label for="">Description</label>
+                    <textarea name="Description" rows="3" cols="75"  class="form-control"></textarea>
+
+                    <label for="">Image</label>
+                    <input type="file" name="Image" class="form-control">
+
+                    <button type="submit" class="btn btn-success mt-4">Submit</butto>
+                </form>
+            </div>
+        </div>
+    </div>
 </section>

@@ -14,6 +14,9 @@ var app = express();
 //require file upload
 var fileUpload = require('express-fileupload');
 
+//getting express-session
+var session = require('express-session');
+
 
 //getting the databases
 var database_connection = require('./config/connection');
@@ -23,7 +26,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 //setting up layout and partials
-app.engine('hbs',hbs({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/'}))
+app.engine('hbs',hbs({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/',helpers:{inc: (value, options)=>{return parseInt(value) + 1;}}}));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -33,6 +36,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 //for fileuploading
 app.use(fileUpload());
 
+//use session and setting timeout
+app.use(session({secret:"Key359",resave: true,
+saveUninitialized: true, cookie:{maxAge:600000}})); //600000->10 minute
 
 //connecting to database
 database_connection.connect((err)=>{

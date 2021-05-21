@@ -1,0 +1,362 @@
+Step to create in NODE JS
+
+1. Create a folder.
+
+2. Initialiaze NPM in that folder by cmd:> npm init (here we need to fill value)  OR npm init -y (fill vaues automatically)
+
+3. This will create a package.json file inside the directory.
+
+4. Now create a JS file to check whether nodejs is working.
+
+5. Creating the file index.js and added a console.log("Running"); in it.
+
+6. Now go to cmd and run the file index.js using cmd:>node index and we will get the Running message in terminal.
+
+
+
+__dirname
+
+The __dirname in a node script returns the path of the folder where the current JavaScript file resides.
+
+===============================================================================
+
+./
+
+The ./ gives the current working directory.
+
+=================================================================================
+
+__dirname vs ./
+
+Both __dirname and ./ give similar results when the node is running in the same directory as the currently executing file but produce different results when the node run from some other directory.
+
+=================================================================================
+
+__filename
+
+The __filename represents the filename of the code being execute.
+
+
+=================================================================================
+
+
+NODEMON
+
+Nodemon is a tool that helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected. nodemon does not require any additional changes to your code or method of development. nodemon is a replacement wrapper for node.
+
+
+Install Nodemon ->   cmd:> npm install nodemon
+
+After installing open package.json file and edit the SCRIPTS element
+
+ "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+
+Change this to 
+
+ "scripts": {
+    "start":"node index",
+    "dev":"nodemone index"	
+  },
+
+
+Now run it cmd:>npm run dev	{index is the name of filE, in which we are making changes}
+
+The changes will reflect automatically.
+
+
+
+
+Nodemon kept looking for index.js... WNAT TO CHANGE THIS??????
+
+Nodemon command search for the main property at you package.json file and tries to execute it's file. Example:
+
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "henriquelborges",
+  "license": "ISC"
+}
+
+
+You can change "main": index.js" to "main": "app.js". Or you can run "nodemon filename" to specify the entry file. What I usually do is add scripts to my package.json. Example:
+
+"scripts": {
+    "start": "node app.js",
+    "test": "nodemon app.js"
+},
+After this I just use commands like "npm start" or "npm test" at my project root folder. 
+
+=================================================================================
+
+dotenv
+
+Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env .
+This is mainly used for storing the configuration files.
+
+
+npm install dotenv
+
+As early as possible in your application, require and configure dotenv.
+
+require('dotenv').config() 
+
+
+Create a .env file in the root directory of your project. 
+
+Add environment-specific variables on new lines in the form of NAME=VALUE. For example:
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=s1mpl3
+process.env now has the keys and values you defined in your .env file.
+
+
+const db = require('db')
+db.connect({
+  host: process.env.DB_HOST,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS
+})
+
+=================================================================================
+
+
+PATH Module
+
+The Path module provides a way of working with directories and file paths.
+
+The syntax for including the Path module in your application:
+	const path = require('path');
+
+You can see a wide range of available options if you console it : console.log(path)
+
+Some of the examples include:
+
+console.log(path.basename(__filename))	->	gives the file name
+console.log(path.dirname(__filename))	->	gives the directory name
+console.log(path.extname(__filename))	->	gives the extension name
+
+
+
+path.join
+
+The path.join() method joins the specified path segments into one path.
+You can specify as many path segments as you like.
+The specified path segments must be strings, separated by comma.
+
+var path = require('path');
+var x = path.join('Users', 'Refsnes', 'sandeep', 'demo_path.js');
+console.log(x);    -> gives Users\Refsnes\sandeep\demo_path.js
+
+
+=================================================================================
+
+FS Module
+
+The file system (FS) module allows you to work with the file system on your computer.
+
+To include the File System module, use the require() method :   var fs = require('fs');
+
+Common use for the File System module:
+
+	Read files
+	Create files
+	Update files
+	Delete files
+	Rename files
+
+Create a new folder 'Test' in the current directory:
+
+	fs.mkdir(path, mode, callback)
+
+path: This parameter holds the path of the directory has to be created.
+
+mode: This parameter holds the recursive boolean value. The mode option is used to set the directory permission, by default it is 0777.
+
+callback: This parameter holds the callback function that contains error. The recursive option if set to true will not give an error message if the directory to be created already exists.
+
+
+const fs = require('fs'); 
+const path = require('path'); 
+
+Create a directory 
+   
+fs.mkdir(path.join(__dirname, 'Test'),{}, (err) => { 
+    if (err) { 
+        return console.error(err); 
+    } 
+    console.log('Directory created successfully!'); 
+});
+
+Remove Directory
+
+//remove the folder resursively
+fs.rmdir(path.join(__dirname, 'Test'),{recursive: true}, (err) => { 
+    if (err) { 
+        return console.error(err); 
+    } 
+    console.log('Directory deleted successfully!'); 
+});
+
+
+READ , WRITE, RENAME etc methods are available under FS, so go through.
+=================================================================================
+
+
+EVENTS Module
+
+
+Node.js has a built-in module, called "Events", where you can create-, fire-, and listen for- your own events.
+
+Event EMIT triggers an event and it can be accessed using ON. 
+
+Syntax:
+
+var events = require('events');
+var eventEmitter = new events();
+
+To fire an event, use the emit() method. use on() to receive the event.
+
+
+In the example below we have created a function that will be executed when a "scream" event is fired.
+
+//Create an event handler:
+var myEventHandler = function () {
+  console.log('I hear a scream!');
+}
+
+//Assign the event handler to an event:
+eventEmitter.on('scream', myEventHandler);
+
+//Fire the 'scream' event:
+eventEmitter.emit('scream');
+
+
+=================================================================================
+
+HTTP module
+
+The HTTP module can create an HTTP server that listens to server ports and gives a response back to the client.
+
+var http = require('http');
+
+Use the createServer() method to create an HTTP server:
+
+
+example:
+
+var http = require('http');
+
+//create a server object:
+http.createServer(function (req, res) {
+  res.write('Hello World!'); //write a response to the client
+  res.end(); //end the response
+}).listen(8080); //the server object listens on port 8080
+
+The function passed into the http.createServer() method, will be executed when someone tries to access the computer on port 8080.
+
+Example which reads files and display contents based on seleted url
+
+var http = require('http');
+var path = require('path');
+var fs  =   require('fs');
+
+//create a server object:
+http.createServer(function (req, res) {
+
+    if(req.url==='/'){
+        
+        
+        fs.readFile(path.join(__dirname,"index.html"),"utf8", (err,data)=>{
+            if(err) throw err;
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.write(data); //write a response to the client
+            res.end();
+        });
+        
+    }
+    
+
+    else if(req.url==='/about'){
+        fs.readFile(path.join(__dirname,"about.html"),"utf8", (err,data)=>{
+            if(err) throw err;
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.write(data); //write a response to the client
+            res.end();
+        });
+    }
+
+    else{
+        res.writeHead(404, {'Content-Type': 'text/html'});
+        res.write("<h1>404</h1>"); //write a response to the client
+        res.end();       
+    }
+  
+}).listen(8080, () => console.log("Server Is Running")); //the server object listens on port 8080
+
+
+
+NB: by doing so, we will have too many IF conditions when the number of pages increase. As a solution EXPRESS JS
+came into existance.
+===============================================================================================================
+
+
+
+EXPRESS / EXPRESS JS
+
+Express.js, or simply Express, is a back end web application framework for Node.js
+
+We have to install Express: npm install express
+
+Now we can find the details in package.json under dependencies: { }
+
+There is differance between dependencies and devDependencies: 
+"dependencies" : Packages required by your application in production. 
+"devDependencies" : Packages that are only needed for local development and testing.
+
+Actually nodemon is required during the development pahse and is not used in live server, ie in production.
+So its better to move nodemon to devDependencies. These will be avoided while creating the build, just like git ignore.
+
+But we have installed nodemon under dependencies. So first uninstall it and install again in devDependencies.
+
+cd:>npm uninstall nodemon
+cd:>npm install nodemon -D or   npm install nodemon -save-dev
+
+-save-dev
+The package installed is not a core rather development dependency.
+All development dependency is listed under devDependencies in package.json.
+
+
+Promise and Callback
+
+The main difference with callback-based APIs is it does not return a value, it just executes the callback with the result. A Promise-based API, on the other hand, immediately returns a Promise that wraps the asynchronous operation, and then the caller uses the returned Promise object and calls.
+
+Promises are more than just callbacks. They are a very mighty abstraction, allow cleaner and better, functional code with less error-prone boilerplate. ... Promises are objects representing the result of a single (asynchronous) computation. They resolve to that result only once.
+
+For working, we need to install promise
+	cmd:>npm install promise
+Then we have to require the same:
+	const Promise = require("promise") 
+
+It will return two parameters: resolve and reject
+
+return new Promise((resolve,reject)=>{
+        if(n1==0)
+            reject("Error! First parameter is zero")
+        resolve(n1+n2)
+    })
+
+
+resolve denotes a result or a true case. while reject denotes some error.
+
+we make use of 'then' to get the results and 'catch' to show errors.
+
+

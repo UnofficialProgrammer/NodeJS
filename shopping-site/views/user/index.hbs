@@ -1,3 +1,32 @@
-<div class="container-fluid">
-  <h1>Welcome To User Dashboard</h1>
-</div>
+<section>
+    <div class="container mt-5">
+        <div class="row">
+
+            {{#each products}}
+            <div class="col-md-3 p-3">
+                <div class="card mt-4" style="width: 15rem; height:25rem">
+                    <img src="./product-images/{{this._id}}.jpg" 
+                        class="card-img-top" alt="..." style="width: 220px; height:200px">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.Name}}</h5>
+                        <p class="card-text">{{this.Description}}</p>
+                        <!-- Normal Method
+                        <a href="/add-to-cart/{{this._id}}" class="btn btn-primary">Add To Cart</a>
+                        -->
+
+                        <!--Ajax Methos addToCart is avaialble under public/javascripts/script.js-->
+                        {{#if ../user}}
+                        <button class="btn btn-primary" onClick="addToCart('{{this._id}}')">Add To Cart</button>
+                        {{else}}
+                        <a href="/userLogin" class="btn btn-primary">Add To Cart</a>
+                        {{/if}}
+
+
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+</section>

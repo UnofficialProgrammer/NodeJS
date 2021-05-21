@@ -86,43 +86,86 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
 
             let productsInCartCount = 0
-            
+
             //check whether the user is already present in cart
             let userCart = await database.get().collection('cart').findOne({ user: objectId(userId) })
             if (userCart) {
 
                 let productsInCart = await database.get().collection('cart')
-                .aggregate([
-                    { 
-                        $match : 
+                    .aggregate([
                         {
-                            user: objectId(userId)
-                        } 
-                    },
-                    { 
-                        $project: 
-                        { 
-                            totalProductsInCart: { $sum: "$products.quantity" }
+                            $match:
+                            {
+                                user: objectId(userId)
+                            }
+                        },
+                        {
+                            $project:
+                            {
+                                totalProductsInCart: { $sum: "$products.quantity" }
+                            }
                         }
-                    }
-                ]).toArray()
-                
-                if(productsInCart) {
+                    ]).toArray()
+
+                if (productsInCart) {
                     productsInCartCount = productsInCart[0].totalProductsInCart
                     resolve(productsInCartCount)
                 }
             }
-            else{
+            else {
                 resolve(productsInCartCount)
             }
-/*
-            let count = 0
-            let cartCount = await database.get().collection('cart').findOne({ user: objectId(userId) })
-            if (cartCount) {
-                count = cartCount.products.length
+            /*
+                        let count = 0
+                        let cartCount = await database.get().collection('cart').findOne({ user: objectId(userId) })
+                        if (cartCount) {
+                            count = cartCount.products.length
+                        }
+                        resolve(count)
+            */
+        })
+    },
+
+    removeCartItem: (prodId, userId) => {
+        return new Promise(async (resolve, reject) => {
+            let userCart = await database.get().collection('cart').findOne({ user: objectId(userId) })
+            if (userCart) {
+                //this will return the index of the finding element. -1 means product not present
+                let prodExist = userCart.products.findIndex(product => product.item == prodId)
+
+                if (prodExist != -1) {
+                    database.get().collection('cart').updateOne({ user: objectId(userId) },
+                        {
+                            $pull: { products: {item: objectId(prodId)}}
+                        }).then(() => {
+                            resolve()
+                        })
+                }
             }
-            resolve(count)
-*/
+        })
+    },
+
+    updateCartItem: (prodId, valueToChange, userId)=> {
+        return new Promise(async (resolve,reject)=>{
+            let userCart = await database.get().collection('cart').findOne({ user: objectId(userId) })
+
+
+            if (userCart) {
+
+                //this will return the index of the finding element. -1 means product not present
+                let prodExist = userCart.products.findIndex(product => product.item == prodId)
+
+                if (prodExist != -1) {
+                    database.get().collection('cart').updateOne({ 'products.item': objectId(prodId), user: objectId(userId) },
+                        {
+                            $inc: { 'products.$.quantity': parseInt(valueToChange) }
+                        }).then(() => {
+                            resolve()
+                        })
+                }
+            }
+
+
         })
     }
 }
