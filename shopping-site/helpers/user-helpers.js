@@ -145,7 +145,41 @@ module.exports = {
         })
     },
 
-    updateCartItem: (prodId, valueToChange, userId)=> {
+    updateCartItem: (prodId, valueToChange, userId, currentQuantity)=> {
+        return new Promise(async (resolve,reject)=>{
+            let userCart = await database.get().collection('cart').findOne({ user: objectId(userId) })
+
+
+            if (userCart) {
+
+                //this will return the index of the finding element. -1 means product not present
+                let prodExist = userCart.products.findIndex(product => product.item == prodId)
+
+                if (prodExist != -1) {
+                    if(valueToChange == -1 && currentQuantity == 1){
+                        database.get().collection('cart').updateOne({ user: objectId(userId) },
+                        {
+                            $pull: { products: {item: objectId(prodId)}}
+                        }).then(() => {
+                            resolve(1)
+                        })
+                    }else{
+                        database.get().collection('cart').updateOne({ 'products.item': objectId(prodId), user: objectId(userId) },
+                        {
+                            $inc: { 'products.$.quantity': parseInt(valueToChange) }
+                        }).then(() => {
+                            resolve(0)
+                        })
+                    }
+                    
+                }
+            }
+
+
+        })
+    },
+
+    updateCartItemNBB: (prodId, valueToChange, userId)=> {
         return new Promise(async (resolve,reject)=>{
             let userCart = await database.get().collection('cart').findOne({ user: objectId(userId) })
 

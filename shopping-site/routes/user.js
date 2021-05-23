@@ -25,6 +25,7 @@ router.get('/', async function (req, res, next) {
   }
 
 
+
   /* >>>>>>GETTING PRODUCTS USING PROMISE METHOD<<<<<*/
 
   productHelpers.getProductsByPromise().then((products) => {
@@ -95,11 +96,11 @@ router.get('/cart', verifyLogin, async (req, res) => {
     cartCount = await userHelpers.getCartCount(req.session.user._id)
   }
 
-
+  let getCartTotalAmount = await productHelpers.getCartTotalAmount(req.session.user._id)
 
   let productsInCart = await productHelpers.getCartProducts(req.session.user._id)
-  console.log(productsInCart)
-  res.render('user/cart', { admin: false, user, productsInCart, cartCount });
+
+  res.render('user/cart', { admin: false, user, productsInCart, cartCount, getCartTotalAmount });
 });
 
 
@@ -127,12 +128,12 @@ router.get('/remove_cart_item/:prodId', (req, res) => {
 });
 
 
-router.get('/update-cart/:prodId/:valueToChange', (req, res) => {
+router.get('/update-cart/:prodId/:valueToChange/:currentQuantity', (req, res) => {
 
   //sending product_id and user_id
-  userHelpers.updateCartItem(req.params.prodId, req.params.valueToChange, req.session.user._id).then((response) => {
-    //res.redirect('/cart')
-    res.json({ response })
+  userHelpers.updateCartItem(req.params.prodId, req.params.valueToChange, req.session.user._id, req.params.currentQuantity).then(async (response) => {
+    let getCartTotalAmount = await productHelpers.getCartTotalAmount(req.session.user._id)
+    res.json({ 'response':response, 'total':getCartTotalAmount })
   })
 
 });
